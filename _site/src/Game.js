@@ -11,8 +11,6 @@ class Game extends Phaser.Scene {
 		this._gamePaused = false;
 		this._runOnce = false;
 
-		this.addsprie(50,50,'shop').setOrigin(50,50);
-
 		this.buttonDummy = new Button(EPT.world.centerX, EPT.world.centerY, 'clickme', this.addPoints, this, 'static');
         this.buttonDummy.setOrigin(0.5,0.5);
         this.buttonDummy.setAlpha(0);

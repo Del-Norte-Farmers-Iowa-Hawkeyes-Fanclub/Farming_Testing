@@ -30,7 +30,12 @@ class Leaderboard extends Phaser.Scene {
         var textStory = this.add.bitmapText(this.cameras.main.centerX, this.cameras.main.centerY - (0.85 * this.cameras.main.centerY), 'arcade', EPT.text['leaderboard-text']).setTint(0x000000);
         textStory.setOrigin(0.5);
 
-        
+        // Add continue button
+        var buttonContinue = new Button(this.cameras.main.width - 20, this.cameras.main.height - 20, 'button-continue', this.clickContinue, this);
+        buttonContinue.setOrigin(1);
+        buttonContinue.x = this.cameras.main.width + buttonContinue.width + 20;
+        this.tweens.add({ targets: buttonContinue, x: this.cameras.main.width - 20, duration: 500, ease: 'Back' });
+
         // Handle Enter key press
         this.keyEnter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.keyEnter.on('down', function (key, event) { this.clickContinue(); }, this);
@@ -42,7 +47,7 @@ class Leaderboard extends Phaser.Scene {
         this.add.bitmapText(100, 110, 'arcade', 'Eco Score | Profit | Primary-Crop | Username').setTint(0x000000);
 
         // Display scores
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 5; i++) {
             const scoreData = scores[i];
             if (scoreData) {
                 const { eco, cash, primaryCrop, name } = scoreData;
@@ -63,14 +68,14 @@ class Leaderboard extends Phaser.Scene {
     clickContinue() {
         // Play click sound and fade out scene
         EPT.Sfx.play('click');
-        EPT.fadeOutScene('Story', this);
+        EPT.fadeOutScene('World', this);
     }
 }
 
 // Perform AJAX request to get scores data
 $.ajax({
     type: 'GET',
-    url: 'https://ihf.stu.nighthawkcodingsociety.com/api/person/eco',
+    url: 'http://localhost:8012/api/person/eco',
     beforeSend: function(xhr) {
         xhr.setRequestHeader('Authorization', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlcm1pdHNhY3R1YWxseXByb25vdW5jZWR3aXRoYVRIVUhAZ21haWwuY29tIiwiaWF0IjoxNzA3MjQ4NTE2LCJleHAiOjE3MDcyNjY1MTZ9.dLWvLwp8UyRMa3kiB5h7R0ms5Tp2ppA-VUuoA2Ys2bU');
     },
